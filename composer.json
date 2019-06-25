@@ -11,9 +11,10 @@
       "Snowdog\\Lib\\": "lib"
     },
     "files": [
-      "src/components.php",
-      "lib/CacheWarm.php",
-      "lib/StaticHostnameResolver.php"
+      "src/components.php"
+    ],
+    "classmap": [
+        "lib/"
     ]
   }
 }
