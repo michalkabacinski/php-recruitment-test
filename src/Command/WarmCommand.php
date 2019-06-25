@@ -2,25 +2,54 @@
 
 namespace Snowdog\DevTest\Command;
 
+use Old_Legacy_CacheWarmer_Actor;
+use Old_Legacy_CacheWarmer_Resolver_Method;
+use Old_Legacy_CacheWarmer_Warmer;
 use Snowdog\DevTest\Model\PageManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class WarmCommand
 {
+
     /**
-     * @var WebsiteManager
+     * @var Old_Legacy_CacheWarmer_Actor $actor
      */
-    private $websiteManager;
+    private $actor;
+
     /**
-     * @var PageManager
+     * @var PageManager $pageManager
      */
     private $pageManager;
 
-    public function __construct(WebsiteManager $websiteManager, PageManager $pageManager)
-    {
-        $this->websiteManager = $websiteManager;
+    /**
+     * @var Old_Legacy_CacheWarmer_Resolver_Method $resolver
+     */
+    private $resolver;
+
+    /**
+     * @var Old_Legacy_CacheWarmer_Warmer $warmer
+     */
+    private $warmer;
+
+    /**
+     * @var WebsiteManager $websiteManager
+     */
+    private $websiteManager;
+    
+
+    public function __construct(
+        Old_Legacy_CacheWarmer_Actor $actor,
+        Old_Legacy_CacheWarmer_Resolver_Method $resolver,
+        Old_Legacy_CacheWarmer_Warmer $warmer,
+        PageManager $pageManager,
+        WebsiteManager $websiteManager
+    ) {
+        $this->actor = $actor;
         $this->pageManager = $pageManager;
+        $this->resolver = $resolver;
+        $this->warmer = $warmer;
+        $this->websiteManager = $websiteManager;
     }
 
     public function __invoke($id, OutputInterface $output)
@@ -29,18 +58,16 @@ class WarmCommand
         if ($website) {
             $pages = $this->pageManager->getAllByWebsite($website);
 
-            $resolver = new \Old_Legacy_CacheWarmer_Resolver_Method();
-            $actor = new \Old_Legacy_CacheWarmer_Actor();
-            $actor->setActor(function ($hostname, $ip, $url) use ($output) {
-                $output->writeln('Visited <info>http://' . $hostname . '/' . $url . '</info> via IP: <comment>' . $ip . '</comment>');
+            $this->actor->setActor(function ($hostname, $ip, $url) use ($output) {
+                $output->writeln('Visited <info>http://' . $hostname . '/' . $url . '</info> via IP: <comment>' . $ip 
+                    . '</comment>');
             });
-            $warmer = new \Old_Legacy_CacheWarmer_Warmer();
-            $warmer->setResolver($resolver);
-            $warmer->setHostname($website->getHostname());
-            $warmer->setActor($actor);
+            $this->warmer->setResolver($this->resolver);
+            $this->warmer->setHostname($website->getHostname());
+            $this->warmer->setActor($this->actor);
 
             foreach ($pages as $page) {
-                $warmer->warm($page->getUrl());
+                $this->warmer->warm($page->getUrl());
             }
         } else {
             $output->writeln('<error>Website with ID ' . $id . ' does not exists!</error>');

@@ -7,10 +7,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Snowdog\\DevTest\\": "src"
+      "Snowdog\\DevTest\\": "src",
+      "Snowdog\\Lib\\": "lib"
     },
     "files": [
-      "src/components.php"
+      "src/components.php",
+      "lib/CacheWarm.php",
+      "lib/StaticHostnameResolver.php"
     ]
   }
 }
