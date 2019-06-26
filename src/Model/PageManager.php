@@ -27,7 +27,11 @@ class PageManager
         $websiteId = $website->getWebsiteId();
 
         $query = $this->database->prepare('
-            SELECT * FROM pages WHERE website_id = :website
+            SELECT pages.*, MAX(visit_date) AS last_visit_date
+            FROM pages
+            LEFT JOIN page_visits ON pages.page_id = page_visits.page_id
+            WHERE website_id = :website
+            GROUP BY pages.page_id
         ');
         $query->bindParam(':website', $websiteId, PDO::PARAM_INT);
         $query->execute();
@@ -50,15 +54,14 @@ class PageManager
         return $this->database->lastInsertId();
     }
 
-    public function updateVisitDate(Page $page)
+    public function addVisitDate(Page $page)
     {
         $pageId = $page->getPageId();
         $visitDate = (new DateTime())->format('Y-m-d H:i:s');
 
         $statement = $this->database->prepare('
-            UPDATE pages
-            SET visit_date = :visit_date
-            WHERE page_id = :page_id
+            INSERT INTO page_visits (page_id, visit_date)
+            VALUES (:page_id, :visit_date)
         ');
         $statement->bindParam(':visit_date', $visitDate, PDO::PARAM_STR);
         $statement->bindParam(':page_id', $pageId, PDO::PARAM_INT);

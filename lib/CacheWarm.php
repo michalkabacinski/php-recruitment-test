@@ -72,7 +72,7 @@ class Old_Legacy_CacheWarmer_Warmer
         $ip = $this->resolver->getIp($this->hostname);
         sleep(1); // this emulates visit to http://$hostname/$url via $ip
         $this->actor->act($this->hostname, $ip, $page->getUrl());
-        $this->pageManager->updateVisitDate($page);
+        $this->pageManager->addVisitDate($page);
     }
     
 }

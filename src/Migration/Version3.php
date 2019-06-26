@@ -21,15 +21,21 @@ class Version3
 
     public function __invoke()
     {
-        $this->alterPageTable();
+        $this->createPageVisitTable();
     }
 
-    private function alterPageTable()
+    private function createPageVisitTable()
     {
-        $query = <<<SQL
-ALTER TABLE `pages` 
-ADD COLUMN `visit_date` DATETIME
+        $createQuery = <<<SQL
+CREATE TABLE `page_visits` (
+  `page_visit_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `page_id` int(11) unsigned NOT NULL,
+  `visit_date` datetime NOT NULL,
+  PRIMARY KEY (`page_visit_id`),
+  KEY `page_id` (`page_id`),
+  CONSTRAINT `page_visit_page_fk` FOREIGN KEY (`page_id`) REFERENCES `pages` (`page_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SQL;
-        $this->database->exec($query);
+        $this->database->exec($createQuery);
     }
 }
