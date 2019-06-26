@@ -6,10 +6,10 @@ use DateTime;
 
 class Page
 {
+    /** @var DateTime $last_visit_date */
+    public $last_visit_date;
     public $page_id;
     public $url;
-    /** @var \DateTime $visit_date */
-    public $visit_date;
     public $website_id;
     
     public function __construct()
@@ -37,10 +37,10 @@ class Page
     /**
      * @return string|null
      */
-    public function getVisitDate()
+    public function getLastVisitDate()
     {
-        return $this->visit_date
-            ? (new DateTime($this->visit_date))->format('Y-m-d')
+        return $this->last_visit_date
+            ? (new DateTime($this->last_visit_date))->format('Y-m-d')
             : null;
     }
 
