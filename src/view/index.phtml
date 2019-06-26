@@ -55,12 +55,14 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Hostname</th>
+                        <th>Last page visit</th>
                     </tr>
                     <?php foreach ($this->getWebsites() as $website): /** @var \Snowdog\DevTest\Model\Website $website */ ?>
                         <tr>
                             <td><?= $website->getWebsiteId() ?></td>
                             <td><a href="/website/<?= $website->getWebsiteId() ?>"><?= $website->getName() ?></a></td>
                             <td><?= $website->getHostname() ?></td>
+                            <td><?= $website->getVisitDate() ?></td>
                         </tr>
                     <?php endforeach ?>
                 </table>

@@ -65,9 +65,10 @@ class WarmCommand
             $this->warmer->setResolver($this->resolver);
             $this->warmer->setHostname($website->getHostname());
             $this->warmer->setActor($this->actor);
+            $this->warmer->setPageManager($this->pageManager);
 
             foreach ($pages as $page) {
-                $this->warmer->warm($page->getUrl());
+                $this->warmer->warm($page);
             }
         } else {
             $output->writeln('<error>Website with ID ' . $id . ' does not exists!</error>');

@@ -45,7 +45,7 @@ class Migration
                 ];
             }
         }
-        
+
         return $executed;
     }
 

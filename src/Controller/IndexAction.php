@@ -8,7 +8,6 @@ use Snowdog\DevTest\Model\WebsiteManager;
 
 class IndexAction
 {
-
     /**
      * @var WebsiteManager
      */

@@ -51,9 +51,10 @@ class WebsiteAction
 
     protected function getPages()
     {
-        if($this->website) {
+        if ($this->website) {
             return $this->pageManager->getAllByWebsite($this->website);
-        } 
+        }
+
         return [];
     }
 }

@@ -35,6 +35,8 @@ class Old_Legacy_CacheWarmer_Warmer
     private $resolver;
     /** @var string */
     private $hostname;
+    /** @var \Snowdog\DevTest\Model\PageManager $pageManager */
+    private $pageManager;
 
     /**
      * @param Old_Legacy_CacheWarmer_Actor $actor
@@ -60,10 +62,17 @@ class Old_Legacy_CacheWarmer_Warmer
         $this->resolver = $resolver;
     }
 
-    public function warm($url) {
+
+    public function setPageManager($pageManager)
+    {
+        $this->pageManager = $pageManager;
+    }
+
+    public function warm(\Snowdog\DevTest\Model\Page $page) {
         $ip = $this->resolver->getIp($this->hostname);
         sleep(1); // this emulates visit to http://$hostname/$url via $ip
-        $this->actor->act($this->hostname, $ip, $url);
+        $this->actor->act($this->hostname, $ip, $page->getUrl());
+        $this->pageManager->updateVisitDate($page);
     }
     
 }

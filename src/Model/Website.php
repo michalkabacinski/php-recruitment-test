@@ -2,13 +2,15 @@
 
 namespace Snowdog\DevTest\Model;
 
+use DateTime;
+
 class Website
 {
-
     public $website_id;
     public $name;
     public $hostname;
     public $user_id;
+    public $visit_date;
 
     public function __construct()
     {
@@ -46,5 +48,15 @@ class Website
     public function getUserId()
     {
         return $this->user_id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVisitDate()
+    {
+        return $this->visit_date
+            ? (new DateTime($this->visit_date))->format('Y-m-d')
+            : null;
     }
 }
