@@ -74,9 +74,9 @@
                         <th>Most visited page</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><?= $this->getSummary()->getTotalPages() ?></td>
+                        <td><?= $this->getSummary()->getLeastVisitedPage() ?></td>
+                        <td><?= $this->getSummary()->getMostVisitedPage() ?></td>
                     </tr>
                 </table>
             </div>
