@@ -33,11 +33,11 @@ class WebsiteManager
         $userId = $user->getUserId();
 
         $query = $this->database->prepare('
-            SELECT *, MAX(pages.visit_date) AS visit_date
+            SELECT websites.website_id, name, hostname, user_id, MAX(pages.visit_date) AS visit_date
             FROM websites
-            INNER JOIN pages ON websites.website_id = pages.website_id
+            LEFT JOIN pages ON websites.website_id = pages.website_id
             WHERE user_id = :user
-            GROUP BY websites.website_id 
+            GROUP BY websites.website_id
         ');
         $query->bindParam(':user', $userId, PDO::PARAM_INT);
         $query->execute();
