@@ -14,18 +14,24 @@ class PageVisitSummaryBuilder
     public function __construct(PageManager $pageManager, UserManager $userManager)
     {
         $this->pageManager = $pageManager;
-        $this->user = $userManager->getByLogin($_SESSION['login']);
+        if (isset($_SESSION['login'])) {
+            $this->user = $userManager->getByLogin($_SESSION['login']);
+        }
     }
 
     public function build(): PageVisitSummary
     {
-        $summary = new PageVisitSummary();
+        if ($this->user) {
+            $summary = new PageVisitSummary();
 
-        $summary->setTotalPages($this->getTotalPages());
-        $summary->setLeastVisitedPage($this->getLeastVisitedPage());
-        $summary->setMostVisitedPage($this->getMostVisitedPage());
+            $summary->setTotalPages($this->getTotalPages());
+            $summary->setLeastVisitedPage($this->getLeastVisitedPage());
+            $summary->setMostVisitedPage($this->getMostVisitedPage());
 
-        return $summary;
+            return $summary;
+        }
+
+        return new PageVisitSummary();
     }
 
     private function getTotalPages(): int
