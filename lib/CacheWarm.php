@@ -68,8 +68,8 @@ class Old_Legacy_CacheWarmer_Warmer
         $this->pageManager = $pageManager;
     }
 
-    public function warm(\Snowdog\DevTest\Model\Page $page) {
-        $ip = $this->resolver->getIp($this->hostname);
+    public function warm(\Snowdog\DevTest\Model\Page $page, \Snowdog\DevTest\Model\Varnish $varnish) {
+        $ip = $varnish->getIp();//$this->resolver->getIp($this->hostname);
         sleep(1); // this emulates visit to http://$hostname/$url via $ip
         $this->actor->act($this->hostname, $ip, $page->getUrl());
         $this->pageManager->addVisitDate($page);

@@ -55,9 +55,9 @@ class VarnishManager
         $websiteId = $website->getWebsiteId();
 
         $query = $this->database->prepare('
-            SELECT varnish_id, user_id, ip
+            SELECT varnishes.varnish_id, user_id, ip
             FROM varnishes
-            INNER JOIN varnishes_x_websites ON varnish.varnish_id = varnishes_x_websites.varnish_id
+            INNER JOIN varnishes_x_websites ON varnishes.varnish_id = varnishes_x_websites.varnish_id
             WHERE varnishes_x_websites.website_id = :website_id;
         ');
         $query->bindParam(':website_id', $websiteId, PDO::PARAM_INT);
