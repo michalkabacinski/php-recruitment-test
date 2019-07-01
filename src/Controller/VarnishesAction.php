@@ -48,6 +48,7 @@ class VarnishesAction
         if($this->user) {
             return $this->websiteManager->getAllByUser($this->user);
         }
+
         return [];
     }
 
@@ -58,6 +59,7 @@ class VarnishesAction
         foreach($websites as $website) {
             $ids[] = $website->getWebsiteId();
         }
+
         return $ids;
     }
 
@@ -65,5 +67,4 @@ class VarnishesAction
 
         include __DIR__ . '/../view/varnish.phtml';
     }
-
 }
