@@ -7,9 +7,8 @@ use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\Website;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class WebsiteAction
+class WebsiteAction extends BaseAction
 {
-
     /**
      * @var WebsiteManager
      */
@@ -27,8 +26,11 @@ class WebsiteAction
      */
     private $website;
 
-    public function __construct(UserManager $userManager, WebsiteManager $websiteManager, PageManager $pageManager)
-    {
+    public function __construct(
+        UserManager $userManager,
+        WebsiteManager $websiteManager,
+        PageManager $pageManager
+    ) {
         $this->websiteManager = $websiteManager;
         $this->pageManager = $pageManager;
         $this->userManager = $userManager;
@@ -36,6 +38,8 @@ class WebsiteAction
 
     public function execute($id)
     {
+        parent::checkUserState();
+
         if (isset($_SESSION['login'])) {
             $user = $this->userManager->getByLogin($_SESSION['login']);
 
@@ -56,5 +60,10 @@ class WebsiteAction
         }
 
         return [];
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

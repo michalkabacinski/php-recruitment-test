@@ -7,7 +7,7 @@ use Snowdog\DevTest\Model\Varnish;
 use Snowdog\DevTest\Model\VarnishManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class VarnishesAction
+class VarnishesAction extends BaseAction
 {
     /**
      * @var UserManager
@@ -63,8 +63,15 @@ class VarnishesAction
         return $ids;
     }
 
-    public function execute() {
+    public function execute()
+    {
+        parent::checkUserState();
 
         include __DIR__ . '/../view/varnish.phtml';
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

@@ -6,11 +6,13 @@ use Snowdog\DevTest\Model\PageManager;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreatePageAction
+class CreatePageAction extends BaseAction
 {
 
-    public function __construct(UserManager $userManager, WebsiteManager $websiteManager, PageManager $pageManager)
-    {
+    public function __construct(
+        UserManager $userManager,
+        WebsiteManager $websiteManager, PageManager $pageManager
+    ) {
         $this->websiteManager = $websiteManager;
         $this->pageManager = $pageManager;
         $this->userManager = $userManager;
@@ -18,6 +20,8 @@ class CreatePageAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         $url = $_POST['url'];
         $websiteId = $_POST['website_id'];
 
@@ -37,5 +41,10 @@ class CreatePageAction
         }
 
         header('Location: /website/' . $websiteId);
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

@@ -6,7 +6,7 @@ use Snowdog\DevTest\Model\User;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\VarnishManager;
 
-class CreateVarnishAction
+class CreateVarnishAction extends BaseAction
 {
     /**
      * @var User
@@ -27,6 +27,8 @@ class CreateVarnishAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         if ($this->user === null) {
             $_SESSION['flash'] = 'Please, sign in!';
             header('Location: /login');
@@ -76,5 +78,10 @@ class CreateVarnishAction
     private function addVarnish(string $ip)
     {
         $this->varnishManager->create($this->user, $ip);
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

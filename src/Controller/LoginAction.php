@@ -5,7 +5,7 @@ namespace Snowdog\DevTest\Controller;
 use Snowdog\DevTest\Model\User;
 use Snowdog\DevTest\Model\UserManager;
 
-class LoginAction
+class LoginAction extends BaseAction
 {
     /**
      * @var UserManager
@@ -19,6 +19,8 @@ class LoginAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         $login = $_POST['login'];
         $password = $_POST['password'];
 
@@ -35,5 +37,10 @@ class LoginAction
 
         $_SESSION['flash'] = 'Incorrect login or password';
         header('Location: /');
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return false;
     }
 }

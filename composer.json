@@ -3,7 +3,7 @@
   "require": {
     "mnapoli/silly": "^1.3",
     "nikic/fast-route": "^1.0",
-    "php-di/php-di": "^5.3",
+    "php-di/php-di": "5.3",
     "mk85/sitemap": "dev-master"
   },
   "repositories": [{

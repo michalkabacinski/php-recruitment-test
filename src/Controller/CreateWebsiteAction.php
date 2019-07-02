@@ -5,7 +5,7 @@ namespace Snowdog\DevTest\Controller;
 use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreateWebsiteAction
+class CreateWebsiteAction extends BaseAction
 {
     /**
      * @var UserManager
@@ -24,6 +24,8 @@ class CreateWebsiteAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         $name = $_POST['name'];
         $hostname = $_POST['hostname'];
 
@@ -41,5 +43,10 @@ class CreateWebsiteAction
         }
 
         header('Location: /');
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

@@ -4,7 +4,7 @@ namespace Snowdog\DevTest\Controller;
 
 use Snowdog\DevTest\Model\UserManager;
 
-class RegisterAction
+class RegisterAction extends BaseAction
 {
 
     /**
@@ -19,6 +19,8 @@ class RegisterAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         $password = $_POST['password'];
         $confirm = $_POST['confirm'];
         $name = $_POST['name'];
@@ -40,5 +42,10 @@ class RegisterAction
         }
         
         header('Location: /register');
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return false;
     }
 }

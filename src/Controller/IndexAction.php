@@ -8,7 +8,7 @@ use Snowdog\DevTest\Model\UserManager;
 use Snowdog\DevTest\Model\WebsiteManager;
 use Snowdog\DevTest\Service\PageVisitSummaryBuilder;
 
-class IndexAction
+class IndexAction extends BaseAction
 {
     /**
      * @var PageVisitSummaryBuilder $summaryBuilder
@@ -59,6 +59,13 @@ class IndexAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         require __DIR__ . '/../view/index.phtml';
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }

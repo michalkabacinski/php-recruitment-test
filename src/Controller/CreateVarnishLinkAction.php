@@ -8,7 +8,7 @@ use Snowdog\DevTest\Model\VarnishManager;
 use Snowdog\DevTest\Model\Website;
 use Snowdog\DevTest\Model\WebsiteManager;
 
-class CreateVarnishLinkAction
+class CreateVarnishLinkAction extends BaseAction
 {
     /**
      * @var UserManager
@@ -33,6 +33,8 @@ class CreateVarnishLinkAction
 
     public function execute()
     {
+        parent::checkUserState();
+
         $link = (bool)$_POST['link'];
         $varnishId = $_POST['varnishId'];
         $websiteId = $_POST['websiteId'];
@@ -47,5 +49,10 @@ class CreateVarnishLinkAction
         }
 
         $this->varnishManager->unlink($varnish, $website);
+    }
+
+    protected function shouldBeLogged(): bool
+    {
+        return true;
     }
 }
