@@ -2,6 +2,7 @@
 
 namespace Snowdog\DevTest\Command;
 
+use mk85\sitemap\Extractor;
 use Old_Legacy_CacheWarmer_Actor;
 use Old_Legacy_CacheWarmer_Resolver_Method;
 use Old_Legacy_CacheWarmer_Warmer;
@@ -31,17 +32,21 @@ class WarmCommand
     /** @var VarnishManager $varnishManager */
     private $varnishManager;
 
+    private $sitemapExtractor;
+
     public function __construct(
         Old_Legacy_CacheWarmer_Actor $actor,
         Old_Legacy_CacheWarmer_Resolver_Method $resolver,
         Old_Legacy_CacheWarmer_Warmer $warmer,
         PageManager $pageManager,
         VarnishManager $varnishManager,
-        WebsiteManager $websiteManager
+        WebsiteManager $websiteManager,
+        Extractor $sitemapExtractor
     ) {
         $this->actor = $actor;
         $this->pageManager = $pageManager;
         $this->resolver = $resolver;
+        $this->sitemapExtractor = $sitemapExtractor;
         $this->warmer = $warmer;
         $this->varnishManager = $varnishManager;
         $this->websiteManager = $websiteManager;
